@@ -39,6 +39,7 @@ body {
     height: 100%;
 
     padding-bottom: 50px;
+    
 }
 
 
@@ -123,6 +124,13 @@ body {
 .right-buttons > .button:active {
     background-color: var(--light-gray-active);
     color: var(--vivid-gamboge);
+}
+.right-buttons > .operating {
+    background-color: var(--light-gray-active);
+    color: var(--vivid-gamboge);
+}
+.button > span {
+    pointer-events: none;
 }
 
 .button {
