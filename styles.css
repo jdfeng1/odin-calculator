@@ -4,7 +4,6 @@ html {
 *, *:before, *:after {
     box-sizing: inherit;
 }
-
 :root {
     --light-gray: #D4D4D2;
     --light-gray-active: #fafafa;
@@ -13,6 +12,7 @@ html {
     --dark-liver-active: #777777;
     --vivid-gamboge: #FF9500;
 }
+
 
 body {
     margin: 0;
@@ -23,13 +23,13 @@ body {
 
 }
 
+
 .header {
     text-align: center;
     margin: 0;
     padding: 20px;
     font-size: 40px;
 }
-
 .content {
     display: flex;
     justify-content: flex-start;
@@ -40,6 +40,7 @@ body {
 
     padding-bottom: 50px;
 }
+
 
 .calc-container {
     width: 400px;
@@ -52,6 +53,7 @@ body {
     box-sizing: content-box;
     overflow: hidden;
 }
+
 
 .display {
     width: 100%;
@@ -73,6 +75,8 @@ body {
     flex: 0 0 auto;
     display: flex;
 }
+
+
 
 .left-buttons {
     flex: 3;
@@ -103,6 +107,7 @@ body {
 .number-buttons > .button:active {
     background-color: var(--dark-liver-active);
 }
+
 .right-buttons {
     flex: 1;
     display: flex;
@@ -114,13 +119,11 @@ body {
     color: var(--light-gray-active);
 
 }
-.right-buttons > .button > span {
-    margin-bottom: 5px;
-}
 .right-buttons > .button:active {
     background-color: var(--light-gray-active);
     color: var(--vivid-gamboge);
 }
+
 .button {
     flex: 1;
     font-size: 50px;
@@ -133,10 +136,12 @@ body {
     transition: all 0.2s ease;
     padding: 0;
 }
+.button > span {
+    margin-bottom: 5px;
+}
 .button:not(.zero) {
     transform: scale(0.85);
 }
-
 .zero {
     grid-column: 1 / span 2;
     display: grid;
