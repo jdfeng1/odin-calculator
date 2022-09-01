@@ -14,6 +14,7 @@ function numberWithCommas(x) {
 
 function displayNum(e) {
     //edge cases
+    
     if (display.textContent.replace(/[.,]/g,"").length === 9) {
         displayValue;
     } else if ((display.textContent == 0 && e.target.textContent == '.') || display.textContent == '0.') {
@@ -26,6 +27,8 @@ function displayNum(e) {
         displayValue += e.target.textContent;
     }
 
+
+
     //adjusting size
     if (display.textContent.replace(/[.,]/g,"").length > 5) {
         display.style.fontSize = '80px';
@@ -36,6 +39,7 @@ function displayNum(e) {
     if (display.textContent.replace(/[.,]/g,"").length > 7) {
         display.style.fontSize = '60px';
     }
+
 
 
     display.textContent = numberWithCommas(displayValue);
@@ -83,8 +87,10 @@ function plusminus(a) {
     return a * -1;
 }
 
-function toggleOperator(button) {
 
+function toggleOperator(button) {
+    storeValue = displayValue;
+    console.log(storeValue);
     const operations = Array.from(document.getElementsByClassName('operating'));
     console.log(operations);
     operations.forEach(b => {
@@ -101,15 +107,19 @@ function toggleOperator(button) {
     } else { 
         button.target.value = "OFF";
         button.target.classList.remove('operating');
-    }
-
+    };
 }
+
 addButton.addEventListener('click', this.toggleOperator);
 subtractButton.addEventListener('click', this.toggleOperator);
 multiplyButton.addEventListener('click', this.toggleOperator);
 divideButton.addEventListener('click', this.toggleOperator);
 
-function operate(operation, a, b) {
+
+function operate() {
+    let operation = document.querySelector('.operating').classList[1];
+    console.log(operation);
+
     if(operation == 'add') return add(a,b);
 
     if(operation == 'subtract') return subtract(a,b);
@@ -117,4 +127,7 @@ function operate(operation, a, b) {
     if(operation == 'multiply') return multiply(a,b);
 
     if(operation == 'divide') return divide(a,b);
+
 }
+
+equalButton.addEventListener('click', operate);
