@@ -16,7 +16,7 @@ html {
 
 body {
     margin: 0;
-    height: auto;
+    height: 100vh;
     font-family: "SF Pro", sans-serif;
     background-color: var(--light-gray);
     color: var(--eerie-black);
