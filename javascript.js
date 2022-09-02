@@ -7,20 +7,51 @@ let stored = false;
 
 let decimalButton = document.querySelector('.button.decimal');
 
+
+function adjustSize() {
+    display.style.fontSize = '90px';
+    //adjusting size
+    console.log(displayValue);
+    console.log(typeof displayValue);
+    if (String(displayValue).length > 5) {
+        display.style.fontSize = '80px';
+    }
+    if (String(displayValue).length > 6) {
+        display.style.fontSize = '70px';
+    }
+    if (String(displayValue).length > 7) {
+        display.style.fontSize = '60px';
+    }
+    
+
+}
+
 function numberWithCommas(x) {
-    var parts = x.toString().split(".");
+    console.log(typeof x);
+    if (x.toString().length > 9) {
+        display.style.fontSize = '60px';
+        return Number.parseFloat(+displayValue).toExponential(3);
+
+    } else {
+        
+    let parts = x.toString().split(".");
     parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    
     return parts.join(".");
+    
+    }
+    
 }
 
 function displayNum(e) {
     //second number
-
+    
 
     if (stored == true) {
         
         displayValue = e.target.textContent;
         stored = false;
+        
     } else {
 
     //edge cases
@@ -38,22 +69,15 @@ function displayNum(e) {
         displayValue += e.target.textContent;
     }
 
-
-    //adjusting size
-    if (display.textContent.replace(/[.,]/g,"").length > 5) {
-        display.style.fontSize = '80px';
+    
     }
-    if (display.textContent.replace(/[.,]/g,"").length > 6) {
-        display.style.fontSize = '70px';
-    }
-    if (display.textContent.replace(/[.,]/g,"").length > 7) {
-        display.style.fontSize = '60px';
-    }
-
-    }
-
+    
+    adjustSize();
     display.textContent = numberWithCommas(displayValue);
+    
+    
 }
+
 
 let numberButtons = document.querySelector('.number-buttons').childNodes;
 Array.from(numberButtons).forEach(symbol => symbol.addEventListener('click', displayNum));
@@ -62,6 +86,8 @@ Array.from(numberButtons).forEach(symbol => symbol.addEventListener('click', dis
 //clear display
 let clearButton = document.querySelector('.button.clear')
 function clearDisplay() {
+
+    adjustSize();
     displayValue = 0;
     display.style.fontSize = '90px';
     display.textContent = displayValue;
@@ -106,7 +132,10 @@ function toggleOperator(button) {
 
     if(lastoperation == 'divide') displayValue = (divide(storeValue, displayValue));
 
+    adjustSize();
     display.textContent = numberWithCommas(displayValue);
+    
+    
     storeValue = displayValue;
     console.log(storeValue);
     const operations = Array.from(document.getElementsByClassName('operating'));
@@ -156,7 +185,9 @@ function operate() {
             return;
     });
 
+    adjustSize();
     display.textContent = numberWithCommas(displayValue);
+    
 
     stored = true;
     storeValue = 0;
@@ -166,12 +197,29 @@ function operate() {
 }
 
 //utility operations
+let plusminusButton = document.querySelector('.plus-minus');
+let percentButton = document.querySelector('.percent');
+
+function plusminus(a) {
+    displayValue = -a;
+    
+}
 
 function percent(a) {
-    return +a * 0.01;
+    displayValue = a * 0.01;
 }
-function plusminus(a) {
-    return +a * -1;
-}
+
+
+plusminusButton.addEventListener('click', () => {
+    plusminus(displayValue);
+    console.log(displayValue);
+    display.textContent = numberWithCommas(displayValue);
+});
+
+percentButton.addEventListener('click', () => {
+    percent(displayValue);
+    console.log(displayValue);
+    display.textContent = numberWithCommas(displayValue);
+});
 
 equalButton.addEventListener('click', operate);
