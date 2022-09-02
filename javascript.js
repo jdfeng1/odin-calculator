@@ -17,12 +17,11 @@ function displayNum(e) {
     //second number
 
 
-    if (document.querySelector('.operating') && stored == true) {
+    if (stored == true) {
         
         displayValue = e.target.textContent;
         stored = false;
     } else {
-    
 
     //edge cases
     
@@ -77,6 +76,8 @@ let subtractButton = document.querySelector('.button.subtract');
 let multiplyButton = document.querySelector('.button.multiply');
 let divideButton = document.querySelector('.button.divide');
 let equalButton = document.querySelector('.button.equal');
+let lastoperation;
+let operation;
 
 //Basic operations
 function add(a,b) {
@@ -91,15 +92,21 @@ function multiply(a,b) {
 function divide(a,b) {
     return +a / +b;
 }
-function percent(a) {
-    return +a * 0.01;
-}
-function plusminus(a) {
-    return +a * -1;
-}
 
 
 function toggleOperator(button) {
+    operation = button.target.classList[1];
+    
+
+    if(lastoperation == 'add') displayValue = (add(storeValue, displayValue));
+
+    if(lastoperation == 'subtract') displayValue = (subtract(storeValue, displayValue));
+
+    if(lastoperation == 'multiply') displayValue = (multiply(storeValue, displayValue));
+
+    if(lastoperation == 'divide') displayValue = (divide(storeValue, displayValue));
+
+    display.textContent = numberWithCommas(displayValue);
     storeValue = displayValue;
     console.log(storeValue);
     const operations = Array.from(document.getElementsByClassName('operating'));
@@ -115,6 +122,7 @@ function toggleOperator(button) {
         button.target.value = "ON";
         stored = true;
         button.target.classList.add('operating');
+        lastoperation = button.target.classList[1];
     } else { 
         button.target.value = "OFF";
         button.target.classList.remove('operating');
@@ -129,10 +137,7 @@ divideButton.addEventListener('click', this.toggleOperator);
 
 
 function operate() {
-    let operation = document.querySelector('.operating').classList[1];
-    console.log(operation);
-    console.log(displayValue);
-    console.log(storeValue);
+    operation = document.querySelector('.operating').classList[1];
 
     if(operation == 'add') displayValue = (add(storeValue, displayValue));
 
@@ -152,10 +157,21 @@ function operate() {
     });
 
     display.textContent = numberWithCommas(displayValue);
-    
+
     stored = true;
     storeValue = 0;
+    operation = '';
+    lastoperation = '';
     console.log(displayValue);
+}
+
+//utility operations
+
+function percent(a) {
+    return +a * 0.01;
+}
+function plusminus(a) {
+    return +a * -1;
 }
 
 equalButton.addEventListener('click', operate);
