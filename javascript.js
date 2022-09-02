@@ -3,6 +3,7 @@
 let display = document.querySelector('.display');
 let displayValue = 0;
 display.textContent = 0;
+let stored = false;
 
 let decimalButton = document.querySelector('.button.decimal');
 
@@ -13,8 +14,19 @@ function numberWithCommas(x) {
 }
 
 function displayNum(e) {
+    //second number
+
+
+    if (document.querySelector('.operating') && stored == true) {
+        
+        displayValue = e.target.textContent;
+        stored = false;
+    } else {
+    
+
     //edge cases
     
+
     if (display.textContent.replace(/[.,]/g,"").length === 9) {
         displayValue;
     } else if ((display.textContent == 0 && e.target.textContent == '.') || display.textContent == '0.') {
@@ -28,7 +40,6 @@ function displayNum(e) {
     }
 
 
-
     //adjusting size
     if (display.textContent.replace(/[.,]/g,"").length > 5) {
         display.style.fontSize = '80px';
@@ -40,7 +51,7 @@ function displayNum(e) {
         display.style.fontSize = '60px';
     }
 
-
+    }
 
     display.textContent = numberWithCommas(displayValue);
 }
@@ -69,22 +80,22 @@ let equalButton = document.querySelector('.button.equal');
 
 //Basic operations
 function add(a,b) {
-    return a + b;
+    return +a + +b;
 }
 function subtract(a,b) {
-    return a - b;
+    return +a - +b;
 }
 function multiply(a,b) {
-    return a * b;
+    return +a * +b;
 }
 function divide(a,b) {
-    return a / b;
+    return +a / +b;
 }
 function percent(a) {
-    return a * 0.01;
+    return +a * 0.01;
 }
 function plusminus(a) {
-    return a * -1;
+    return +a * -1;
 }
 
 
@@ -92,7 +103,6 @@ function toggleOperator(button) {
     storeValue = displayValue;
     console.log(storeValue);
     const operations = Array.from(document.getElementsByClassName('operating'));
-    console.log(operations);
     operations.forEach(b => {
         if (b.classList.contains('operating')) {
             b.classList.remove('operating');
@@ -103,11 +113,13 @@ function toggleOperator(button) {
     
     if (button.target.value == "OFF") {   
         button.target.value = "ON";
+        stored = true;
         button.target.classList.add('operating');
     } else { 
         button.target.value = "OFF";
         button.target.classList.remove('operating');
     };
+    console.log(stored);
 }
 
 addButton.addEventListener('click', this.toggleOperator);
@@ -119,15 +131,31 @@ divideButton.addEventListener('click', this.toggleOperator);
 function operate() {
     let operation = document.querySelector('.operating').classList[1];
     console.log(operation);
+    console.log(displayValue);
+    console.log(storeValue);
 
-    if(operation == 'add') return add(a,b);
+    if(operation == 'add') displayValue = (add(storeValue, displayValue));
 
-    if(operation == 'subtract') return subtract(a,b);
+    if(operation == 'subtract') displayValue = (subtract(storeValue, displayValue));
 
-    if(operation == 'multiply') return multiply(a,b);
+    if(operation == 'multiply') displayValue = (multiply(storeValue, displayValue));
 
-    if(operation == 'divide') return divide(a,b);
+    if(operation == 'divide') displayValue = (divide(storeValue, displayValue));
 
+    const operations = Array.from(document.getElementsByClassName('operating'));
+        operations.forEach(b => {
+            if (b.classList.contains('operating')) {
+                b.classList.remove('operating');
+                b.value = 'OFF';
+            }
+            return;
+    });
+
+    display.textContent = numberWithCommas(displayValue);
+    
+    stored = true;
+    storeValue = 0;
+    console.log(displayValue);
 }
 
 equalButton.addEventListener('click', operate);
