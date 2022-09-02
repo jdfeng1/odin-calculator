@@ -11,8 +11,6 @@ let decimalButton = document.querySelector('.button.decimal');
 function adjustSize() {
     display.style.fontSize = '90px';
     //adjusting size
-    console.log(displayValue);
-    console.log(typeof displayValue);
     if (String(displayValue).length > 5) {
         display.style.fontSize = '80px';
     }
@@ -27,10 +25,10 @@ function adjustSize() {
 }
 
 function numberWithCommas(x) {
-    console.log(typeof x);
+    //scientific notation
     if (x.toString().length > 9) {
         display.style.fontSize = '60px';
-        return Number.parseFloat(+displayValue).toExponential(3);
+        return Number.parseFloat(+displayValue).toExponential(5);
 
     } else {
         
@@ -45,7 +43,10 @@ function numberWithCommas(x) {
 
 function displayNum(e) {
     //second number
-    
+    if (document.querySelector('.waiting')) {
+        document.querySelector('.waiting').classList.remove('waiting');
+    }
+
 
     if (stored == true) {
         
@@ -56,7 +57,7 @@ function displayNum(e) {
 
     //edge cases
     
-
+    
     if (display.textContent.replace(/[.,]/g,"").length === 9) {
         displayValue;
     } else if ((display.textContent == 0 && e.target.textContent == '.') || display.textContent == '0.') {
@@ -71,10 +72,15 @@ function displayNum(e) {
 
     
     }
-    
+
     adjustSize();
     display.textContent = numberWithCommas(displayValue);
     
+    if (display.textContent == '0') {
+        clearButton.textContent = 'AC';
+    } else {
+        clearButton.textContent = 'C';
+    }
     
 }
 
@@ -84,13 +90,38 @@ Array.from(numberButtons).forEach(symbol => symbol.addEventListener('click', dis
 
 
 //clear display
-let clearButton = document.querySelector('.button.clear')
+let clearButton = document.querySelector('.button.clear');
+if (display.textContent == '0') {
+    clearButton.textContent = 'AC';
+}
 function clearDisplay() {
-
+    if (clearButton.textContent == 'AC') {
+        adjustSize();
+        displayValue = 0;
+        storeValue = 0;
+        const operations = Array.from(document.getElementsByClassName('operating'));
+        operations.forEach(b => {
+            if (b.classList.contains('operating' || 'waiting')) {
+                b.classList.remove('operating', 'waiting');
+                b.value = 'OFF';
+            }
+            return;
+        });
+        stored = false;
+        display.style.fontSize = '90px';
+        if (display.textContent == '0') {
+            clearButton.textContent = 'AC';
+        } else {
+            clearButton.textContent = 'C';
+        }
+        display.textContent = displayValue;
+    } else {
     adjustSize();
     displayValue = 0;
+    clearButton.textContent = 'AC';
     display.style.fontSize = '90px';
     display.textContent = displayValue;
+    }
 }
 clearButton.addEventListener('click', clearDisplay);
 
@@ -121,8 +152,11 @@ function divide(a,b) {
 
 
 function toggleOperator(button) {
+    let waiters = document.getElementsByClassName('waiting');
+    console.log(waiters.length == 0);
     operation = button.target.classList[1];
-    
+    console.log(operation);
+    if(waiters.length == 0) {
 
     if(lastoperation == 'add') displayValue = (add(storeValue, displayValue));
 
@@ -132,16 +166,26 @@ function toggleOperator(button) {
 
     if(lastoperation == 'divide') displayValue = (divide(storeValue, displayValue));
 
+    }
+
+    storeValue = displayValue;
+    console.log(storeValue);
+
+    
     adjustSize();
     display.textContent = numberWithCommas(displayValue);
     
+    if (display.textContent == '0') {
+        clearButton.textContent = 'AC';
+    } else {
+        clearButton.textContent = 'C';
+    }
     
-    storeValue = displayValue;
-    console.log(storeValue);
+    
     const operations = Array.from(document.getElementsByClassName('operating'));
     operations.forEach(b => {
-        if (b.classList.contains('operating')) {
-            b.classList.remove('operating');
+        if (b.classList.contains('operating' || 'waiting')) {
+            b.classList.remove('operating', 'waiting');
             b.value = 'OFF';
         }
         return;
@@ -150,13 +194,15 @@ function toggleOperator(button) {
     if (button.target.value == "OFF") {   
         button.target.value = "ON";
         stored = true;
-        button.target.classList.add('operating');
+        button.target.classList.add('operating', 'waiting');
         lastoperation = button.target.classList[1];
     } else { 
         button.target.value = "OFF";
-        button.target.classList.remove('operating');
+        button.target.classList.remove('operating', 'waiting');
     };
+
     console.log(stored);
+
 }
 
 addButton.addEventListener('click', this.toggleOperator);
@@ -188,6 +234,11 @@ function operate() {
     adjustSize();
     display.textContent = numberWithCommas(displayValue);
     
+    if (display.textContent == '0') {
+        clearButton.textContent = 'AC';
+    } else {
+        clearButton.textContent = 'C';
+    }
 
     stored = true;
     storeValue = 0;
@@ -214,12 +265,24 @@ plusminusButton.addEventListener('click', () => {
     plusminus(displayValue);
     console.log(displayValue);
     display.textContent = numberWithCommas(displayValue);
+    
+    if (display.textContent == '0') {
+        clearButton.textContent = 'AC';
+    } else {
+        clearButton.textContent = 'C';
+    }
 });
 
 percentButton.addEventListener('click', () => {
     percent(displayValue);
     console.log(displayValue);
     display.textContent = numberWithCommas(displayValue);
+
+    if (display.textContent == '0') {
+        clearButton.textContent = 'AC';
+    } else {
+        clearButton.textContent = 'C';
+    }
 });
 
 equalButton.addEventListener('click', operate);

@@ -92,6 +92,8 @@ body {
 .utility-buttons > .button {
     background-color: var(--light-gray);
     color: var(--dark-liver);
+
+    font-size: 40px;
 }
 .utility-buttons > .button:active {
     background-color: var(--light-gray-active);
@@ -125,7 +127,8 @@ body {
     background-color: var(--light-gray-active);
     color: var(--vivid-gamboge);
 }
-.right-buttons > .operating {
+
+.right-buttons > .waiting {
     background-color: var(--light-gray-active);
     color: var(--vivid-gamboge);
 }
@@ -142,7 +145,7 @@ body {
     align-items: center;
     border: none;
     border-radius: 50px;
-    transition: all 0.2s ease;
+    transition: all 0.4s ease;
     padding: 0;
 }
 .button > span {
