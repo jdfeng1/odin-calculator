@@ -16,11 +16,10 @@ html {
 
 body {
     margin: 0;
-    height: 100vh;
+    height: auto;
     font-family: "SF Pro", sans-serif;
     background-color: var(--light-gray);
     color: var(--eerie-black);
-
 }
 
 

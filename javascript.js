@@ -89,6 +89,7 @@ let numberButtons = document.querySelector('.number-buttons').childNodes;
 Array.from(numberButtons).forEach(symbol => symbol.addEventListener('click', displayNum));
 
 
+
 //clear display
 let clearButton = document.querySelector('.button.clear');
 if (display.textContent == '0') {
@@ -153,9 +154,9 @@ function divide(a,b) {
 
 function toggleOperator(button) {
     let waiters = document.getElementsByClassName('waiting');
-    console.log(waiters.length == 0);
+    
     operation = button.target.classList[1];
-    console.log(operation);
+    
     if(waiters.length == 0) {
 
     if(lastoperation == 'add') displayValue = (add(storeValue, displayValue));
@@ -169,7 +170,7 @@ function toggleOperator(button) {
     }
 
     storeValue = displayValue;
-    console.log(storeValue);
+    
 
     
     adjustSize();
@@ -201,7 +202,7 @@ function toggleOperator(button) {
         button.target.classList.remove('operating', 'waiting');
     };
 
-    console.log(stored);
+    
 
 }
 
@@ -244,7 +245,7 @@ function operate() {
     storeValue = 0;
     operation = '';
     lastoperation = '';
-    console.log(displayValue);
+    
 }
 
 //utility operations
@@ -263,7 +264,7 @@ function percent(a) {
 
 plusminusButton.addEventListener('click', () => {
     plusminus(displayValue);
-    console.log(displayValue);
+    
     display.textContent = numberWithCommas(displayValue);
     
     if (display.textContent == '0') {
@@ -275,7 +276,7 @@ plusminusButton.addEventListener('click', () => {
 
 percentButton.addEventListener('click', () => {
     percent(displayValue);
-    console.log(displayValue);
+    
     display.textContent = numberWithCommas(displayValue);
 
     if (display.textContent == '0') {
