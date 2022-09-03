@@ -60,7 +60,9 @@ function displayNum(e) {
             displayValue;
         } else if (display.textContent.includes('.') && e.textContent == '.') {
             return;
-        } else if ((display.textContent == 0 && e.textContent == '.') || display.textContent == '0.') {
+        } else if (display.textContent.includes('.')) {
+            displayValue += e.textContent;
+        } else if ((display.textContent == 0 && e.textContent == '.') || display.   textContent == '0.') {
             displayValue += e.textContent;
         }  else if (display.textContent == 0 ) {
             displayValue = e.textContent;
@@ -90,9 +92,11 @@ function displayNum(e) {
             displayValue;
         } else if (display.textContent.includes('.') && e.target.textContent == '.') {
             return;
+        } else if (display.textContent.includes('.')) {
+            displayValue += e.target.textContent;
         } else if ((display.textContent == 0 && e.target.textContent == '.') || display.textContent == '0.') {
             displayValue += e.target.textContent;
-        }  else if (display.textContent == 0) {
+        }  else if (display.textContent == '0') {
             displayValue = e.target.textContent;
         }  else {
             displayValue += e.target.textContent;
