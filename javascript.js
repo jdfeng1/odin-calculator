@@ -60,13 +60,13 @@ function displayNum(e) {
         
         if (display.textContent.replace(/[.,]/g,"").length === 9) {
             displayValue;
+        } else if (display.textContent.includes('.') && e.textContent == '.') {
+            return;
         } else if ((display.textContent == 0 && e.textContent == '.') || display.textContent == '0.') {
             displayValue += e.textContent;
         }  else if (display.textContent == 0 ) {
             displayValue = e.textContent;
-        } else if (display.textContent.includes('.') && e.textContent == '.') {
-            return;
-        } else {
+        }  else {
             displayValue += e.textContent;
         }
     
@@ -90,13 +90,13 @@ function displayNum(e) {
         
         if (display.textContent.replace(/[.,]/g,"").length === 9) {
             displayValue;
-        } else if ((display.textContent == 0 && e.target.textContent == '.') || display.textContent == '0.') {
-            displayValue += e.target.textContent;
-        }  else if (display.textContent == 0 ) {
-            displayValue = e.target.textContent;
         } else if (display.textContent.includes('.') && e.target.textContent == '.') {
             return;
-        } else {
+        } else if ((display.textContent == 0 && e.target.textContent == '.') || display.textContent == '0.') {
+            displayValue += e.target.textContent;
+        }  else if (display.textContent == 0) {
+            displayValue = e.target.textContent;
+        }  else {
             displayValue += e.target.textContent;
         }
         }
@@ -104,13 +104,18 @@ function displayNum(e) {
 
     adjustSize();
     display.textContent = numberWithCommas(displayValue);
-    
+    if(display.textContent == '.') {
+        display.textContent = '0.'
+        displayValue = display.textContent;
+    }
     if (display.textContent == '0') {
         clearButton.textContent = 'AC';
     } else {
         clearButton.textContent = 'C';
     }
     
+    console.log(display.textContent);
+    console.log(displayValue);
 }
 
 
@@ -187,6 +192,7 @@ function divide(a,b) {
 function toggleOperator(button) {
 
     
+    console.log(displayValue);
 
     let waiters = document.getElementsByClassName('waiting');
 
@@ -375,6 +381,9 @@ document.addEventListener('keydown', (e) => {
     if (e.key == '9') {
         displayNum(document.querySelector('.nine'));
     }
+    if(e.key == '.') {
+        displayNum(document.querySelector('.decimal'));
+    }
     //operation keys
     if(e.key == '+') {
         toggleOperator(addButton);
@@ -392,6 +401,7 @@ document.addEventListener('keydown', (e) => {
     if(e.key == 'Enter') {
         operate();
     }
+
 
 
     if(e.key == 'Backspace' || e.key == 'Delete') {
