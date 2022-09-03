@@ -42,35 +42,64 @@ function numberWithCommas(x) {
 }
 
 function displayNum(e) {
-    //second number
-    if (document.querySelector('.waiting')) {
-        document.querySelector('.waiting').classList.remove('waiting');
-    }
 
-
-    if (stored == true) {
+    if (e.type == 'submit') {
+        if (document.querySelector('.waiting')) {
+            document.querySelector('.waiting').classList.remove('waiting');
+        }
+    
+        if (stored == true) {
+            
+            displayValue = e.textContent;
+            stored = false;
+            
+        } else {
+    
+        //edge cases
         
-        displayValue = e.target.textContent;
-        stored = false;
         
+        if (display.textContent.replace(/[.,]/g,"").length === 9) {
+            displayValue;
+        } else if ((display.textContent == 0 && e.textContent == '.') || display.textContent == '0.') {
+            displayValue += e.textContent;
+        }  else if (display.textContent == 0 ) {
+            displayValue = e.textContent;
+        } else if (display.textContent.includes('.') && e.textContent == '.') {
+            return;
+        } else {
+            displayValue += e.textContent;
+        }
+    
+        
+        }
     } else {
+        //second number
+        if (document.querySelector('.waiting')) {
+            document.querySelector('.waiting').classList.remove('waiting');
+        }
 
-    //edge cases
-    
-    
-    if (display.textContent.replace(/[.,]/g,"").length === 9) {
-        displayValue;
-    } else if ((display.textContent == 0 && e.target.textContent == '.') || display.textContent == '0.') {
-        displayValue += e.target.textContent;
-    }  else if (display.textContent == 0 ) {
-        displayValue = e.target.textContent;
-    } else if (display.textContent.includes('.') && e.target.textContent == '.') {
-        return;
-    } else {
-        displayValue += e.target.textContent;
-    }
+        if (stored == true) {
+            
+            displayValue = e.target.textContent;
+            stored = false;
+            
+        } else {
 
-    
+        //edge cases
+        
+        
+        if (display.textContent.replace(/[.,]/g,"").length === 9) {
+            displayValue;
+        } else if ((display.textContent == 0 && e.target.textContent == '.') || display.textContent == '0.') {
+            displayValue += e.target.textContent;
+        }  else if (display.textContent == 0 ) {
+            displayValue = e.target.textContent;
+        } else if (display.textContent.includes('.') && e.target.textContent == '.') {
+            return;
+        } else {
+            displayValue += e.target.textContent;
+        }
+        }
     }
 
     adjustSize();
@@ -85,9 +114,11 @@ function displayNum(e) {
 }
 
 
+
+
+
 let numberButtons = document.querySelector('.number-buttons').childNodes;
 Array.from(numberButtons).forEach(symbol => symbol.addEventListener('click', displayNum));
-
 
 
 //clear display
@@ -124,6 +155,7 @@ function clearDisplay() {
     display.textContent = displayValue;
     }
 }
+
 clearButton.addEventListener('click', clearDisplay);
 
 
@@ -153,10 +185,17 @@ function divide(a,b) {
 
 
 function toggleOperator(button) {
+
+    
+
     let waiters = document.getElementsByClassName('waiting');
-    
-    operation = button.target.classList[1];
-    
+
+    if (button.type == 'submit') {
+        operation = button.classList[1];
+    } else {
+        operation = button.target.classList[1];
+    };
+
     if(waiters.length == 0) {
 
     if(lastoperation == 'add') displayValue = (add(storeValue, displayValue));
@@ -170,8 +209,6 @@ function toggleOperator(button) {
     }
 
     storeValue = displayValue;
-    
-
     
     adjustSize();
     display.textContent = numberWithCommas(displayValue);
@@ -192,15 +229,27 @@ function toggleOperator(button) {
         return;
     });
     
-    if (button.target.value == "OFF") {   
-        button.target.value = "ON";
-        stored = true;
-        button.target.classList.add('operating', 'waiting');
-        lastoperation = button.target.classList[1];
-    } else { 
-        button.target.value = "OFF";
-        button.target.classList.remove('operating', 'waiting');
-    };
+    if (button.type == 'submit') {
+        if (button.value == "OFF") {   
+            button.value = "ON";
+            stored = true;
+            button.classList.add('operating', 'waiting');
+            lastoperation = button.classList[1];
+        } else { 
+            button.value = "OFF";
+            button.classList.remove('operating', 'waiting');
+        };
+    } else {
+        if (button.target.value == "OFF") {   
+            button.target.value = "ON";
+            stored = true;
+            button.target.classList.add('operating', 'waiting');
+            lastoperation = button.target.classList[1];
+        } else { 
+            button.target.value = "OFF";
+            button.target.classList.remove('operating', 'waiting');
+        };
+    }
 
     
 
@@ -287,3 +336,65 @@ percentButton.addEventListener('click', () => {
 });
 
 equalButton.addEventListener('click', operate);
+
+
+
+//keyboard compatibility
+document.addEventListener('keydown', (e) => {
+
+    document.activeElement.blur();
+    
+    //number keys
+    if (e.key == '0') {
+        displayNum(document.querySelector('.zero'));
+    }
+    if (e.key == '1') {
+        displayNum(document.querySelector('.one'));
+    }
+    if (e.key == '2') {
+        displayNum(document.querySelector('.two'));
+    }
+    if (e.key == '3') {
+        displayNum(document.querySelector('.three'));
+    }
+    if (e.key == '4') {
+        displayNum(document.querySelector('.four'));
+    }
+    if (e.key == '5') {
+        displayNum(document.querySelector('.five'));
+    }
+    if (e.key == '6') {
+        displayNum(document.querySelector('.six'));
+    }
+    if (e.key == '7') {
+        displayNum(document.querySelector('.seven'));
+    }
+    if (e.key == '8') {
+        displayNum(document.querySelector('.eight'));
+    }
+    if (e.key == '9') {
+        displayNum(document.querySelector('.nine'));
+    }
+    //operation keys
+    if(e.key == '+') {
+        toggleOperator(addButton);
+    }
+    if(e.key == '-') {
+        toggleOperator(subtractButton);
+    }
+    if(e.key == '/') {
+        toggleOperator(divideButton);
+    }
+    if(e.key == '*') {
+        toggleOperator(multiplyButton);
+    }
+
+    if(e.key == 'Enter') {
+        operate();
+    }
+
+
+    if(e.key == 'Backspace' || e.key == 'Delete') {
+        clearDisplay();
+    }
+});
