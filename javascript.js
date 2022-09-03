@@ -20,9 +20,8 @@ function adjustSize() {
     if (String(displayValue).length > 7) {
         display.style.fontSize = '60px';
     }
-    
-
 }
+
 
 function numberWithCommas(x) {
     //scientific notation
@@ -38,11 +37,10 @@ function numberWithCommas(x) {
     return parts.join(".");
     
     }
-    
 }
 
 function displayNum(e) {
-
+    //keyboard version
     if (e.type == 'submit') {
         if (document.querySelector('.waiting')) {
             document.querySelector('.waiting').classList.remove('waiting');
@@ -72,8 +70,8 @@ function displayNum(e) {
     
         
         }
-    } else {
-        //second number
+    } else { //buttons
+        //second number stored
         if (document.querySelector('.waiting')) {
             document.querySelector('.waiting').classList.remove('waiting');
         }
@@ -114,12 +112,7 @@ function displayNum(e) {
         clearButton.textContent = 'C';
     }
     
-    console.log(display.textContent);
-    console.log(displayValue);
 }
-
-
-
 
 
 let numberButtons = document.querySelector('.number-buttons').childNodes;
@@ -191,9 +184,6 @@ function divide(a,b) {
 
 function toggleOperator(button) {
 
-    
-    console.log(displayValue);
-
     let waiters = document.getElementsByClassName('waiting');
 
     if (button.type == 'submit') {
@@ -256,8 +246,6 @@ function toggleOperator(button) {
             button.target.classList.remove('operating', 'waiting');
         };
     }
-
-    
 
 }
 
@@ -401,8 +389,6 @@ document.addEventListener('keydown', (e) => {
     if(e.key == 'Enter') {
         operate();
     }
-
-
 
     if(e.key == 'Backspace' || e.key == 'Delete') {
         clearDisplay();
